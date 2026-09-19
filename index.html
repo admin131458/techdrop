@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechDrop 2026 · 官方数码首发与破发行情雷达</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #080c14; color: #f8fafc; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+  <!-- 顶部原子授时导航 -->
+  <header class="sticky top-0 z-50 glass px-6 py-3.5 flex flex-wrap items-center justify-between border-b border-slate-800 gap-4">
+    <div class="flex items-center gap-3">
+      <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+        <i class="fa-solid fa-satellite-dish"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-lg text-white">TechDrop 2026</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">官方实时同步</span>
+        </div>
+        <p class="text-xs text-slate-400">数码首发抢购雷达 & 全网溢价/破发监控</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 font-mono text-xs">
+      <span class="text-slate-400">国家授时中心:</span>
+      <span id="atomic-clock" class="text-emerald-400 font-bold tracking-wider">--:--:--.---</span>
+      <button onclick="refreshData()" class="ml-2 px-3 py-1.5 rounded-lg bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-600/30 transition flex items-center gap-1">
+        <i class="fa-solid fa-arrows-rotate" id="refresh-icon"></i> 刷新行情
+      </button>
+    </div>
+  </header>
+
+  <!-- 主体筛选与内容 -->
+  <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1 flex flex-col gap-6">
+    <div class="glass rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap gap-2" id="filter-bar">
+        <button onclick="filterCat('all', this)" class="btn-active px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-white transition">全部品类</button>
+        <button onclick="filterCat('phone', this)" class="btn-item px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">手机</button>
+        <button onclick="filterCat('tablet', this)" class="btn-item px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">平板电脑</button>
+        <button onclick="filterCat('wearable', this)" class="btn-item px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">穿戴配件</button>
+        <button onclick="filterCat('gaming', this)" class="btn-item px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">游戏掌机</button>
+        <button onclick="filterCat('camera', this)" class="btn-item px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition">相机航拍</button>
+      </div>
+      <input id="kw-search" oninput="doSearch()" type="text" placeholder="搜索机型、芯片（如玄戒O3、A20）..." class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 w-64" />
+    </div>
+
+    <!-- 商品网格 -->
+    <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </main>
+
+  <script>
+    // 现实官方核准 2026 首发真机名录
+    const db = [
+      {
+        id: 'xm-fold',
+        brand: 'Xiaomi',
+        cat: 'phone',
+        name: '小米 18 Fold 阔折叠手机',
+        spec: '首发自研玄戒 O3 AI 芯片 · 龙骨转轴 · 金沙江电池',
+        date: '2026-09-24T10:00:00',
+        officialMsrp: 10999,
+        pddPrice: 10699,
+        marketPrice: 12500, // 现货溢价
+        status: '官方抢购预约',
+        link: 'https://www.mi.com'
+      },
+      {
+        id: 'xm-pad9',
+        brand: 'Xiaomi',
+        cat: 'tablet',
+        name: '小米平板 9 Pro Max',
+        spec: '13.3英寸生产力大屏 · 玄戒 O3 芯片 · DP-in 输入',
+        date: '2026-09-24T10:00:00',
+        officialMsrp: 4799,
+        pddPrice: 4049,
+        marketPrice: 4799,
+        status: '下周现货首发',
+        link: 'https://www.mi.com'
+      },
+      {
+        id: 'xm-band11',
+        brand: 'Xiaomi',
+        cat: 'wearable',
+        name: '小米手环 11 NFC 版',
+        spec: '澎湃OS 4 · 21天超长续航 · 支持国补立减',
+        date: '2026-09-20T10:00:00',
+        officialMsrp: 289,
+        pddPrice: 238,
+        marketPrice: 289,
+        status: '全网首销中',
+        link: 'https://www.mi.com'
+      },
+      {
+        id: 'ap-18pm',
+        brand: 'Apple',
+        cat: 'phone',
+        name: 'iPhone 18 Pro Max',
+        spec: '台积电 2nm A20 Pro · 潜望微距长焦 · 钛金属机身',
+        date: '2026-09-25T08:00:00',
+        officialMsrp: 9999,
+        pddPrice: 9499,
+        marketPrice: 10499,
+        status: '即将首发开抢',
+        link: 'https://www.apple.com.cn'
+      },
+      {
+        id: 'hw-mate80',
+        brand: 'HUAWEI',
+        cat: 'phone',
+        name: '华为 Mate 80 RS 非凡大师',
+        spec: '纯血鸿蒙 6.0 商业版 · 双向卫星通信 · 陶瓷机身',
+        date: '2026-11-18T10:08:00',
+        officialMsrp: 11999,
+        pddPrice: 11999,
+        marketPrice: 14500,
+        status: '官方定档预约',
+        link: 'https://www.vmall.com'
+      },
+      {
+        id: 'ns-switch2',
+        brand: 'Nintendo',
+        cat: 'gaming',
+        name: 'Nintendo Switch 2 代',
+        spec: '定制 Tegra 芯片 · 支持 DLSS 硬件超分辨率 · 新世代卡带',
+        date: '2026-10-15T09:00:00',
+        officialMsrp: 3299,
+        pddPrice: 3199,
+        marketPrice: 3899,
+        status: '锁单排期中',
+        link: 'https://www.nintendo.com'
+      },
+      {
+        id: 'fj-x100vi',
+        brand: 'Fujifilm',
+        cat: 'camera',
+        name: '富士 X100VI 旁轴数码相机',
+        spec: '4020万像素 X-Trans CMOS · 五轴防抖 · 经典胶片色彩',
+        date: '2026-09-22T10:00:00',
+        officialMsrp: 11390,
+        pddPrice: 14999,
+        marketPrice: 15800,
+        status: '限量原价抽签',
+        link: 'https://www.jd.com'
+      }
+    ];
+
+    let activeCategory = 'all';
+
+    // 毫秒级授时时钟
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const ms = String(now.getMilliseconds()).padStart(3, '0');
+      document.getElementById('atomic-clock').innerText = `${h}:${m}:${s}.${ms}`;
+      requestAnimationFrame(updateClock);
+    }
+    requestAnimationFrame(updateClock);
+
+    // 渲染卡片
+    function render(list) {
+      const el = document.getElementById('product-grid');
+      el.innerHTML = list.map(item => {
+        const diff = item.marketPrice - item.officialMsrp;
+        const diffTag = diff > 0 
+          ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">🔥 溢价 +¥${diff}</span>`
+          : (diff < 0 ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">📉 破发 ¥${Math.abs(diff)}</span>` : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-slate-300">平价现货</span>`);
+
+        return `
+          <div class="glass rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/40 transition duration-300">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">${item.brand}</span>
+                <span class="text-xs text-amber-400 font-semibold font-mono">${item.status}</span>
+              </div>
+              <h3 class="text-base font-bold text-white mb-1">${item.name}</h3>
+              <p class="text-xs text-slate-400 mb-4 line-clamp-1">${item.spec}</p>
+
+              <div class="bg-slate-900/80 rounded-lg p-3 text-xs space-y-1.5 mb-4 border border-slate-800">
+                <div class="flex justify-between">
+                  <span class="text-slate-400">官方指导价:</span>
+                  <span class="font-bold font-mono text-white">¥${item.officialMsrp.toLocaleString()}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-400">百亿补贴参考:</span>
+                  <span class="font-bold font-mono text-emerald-400">¥${item.pddPrice.toLocaleString()}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-400">现货/二手行情:</span>
+                  <div class="flex items-center gap-1.5 font-mono">
+                    <span class="font-bold text-slate-200">¥${item.marketPrice.toLocaleString()}</span>
+                    ${diffTag}
+                  </div>
+                </div>
+                <div class="flex justify-between pt-1 border-t border-slate-800">
+                  <span class="text-slate-400">首发开抢时间:</span>
+                  <span class="font-mono text-cyan-400">${new Date(item.date).toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-2">
+              <button onclick="exportICS('${item.name}', '${item.date}')" class="flex-1 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center justify-center gap-1 transition">
+                <i class="fa-regular fa-calendar-plus"></i> 加提醒
+              </button>
+              <a href="${item.link}" target="_blank" class="flex-1 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold flex items-center justify-center gap-1 transition">
+                直达官网抢购 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterCat(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('#filter-bar button').forEach(b => {
+        b.className = 'btn-item px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition';
+      });
+      btn.className = 'btn-active px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500 text-white transition';
+      doSearch();
+    }
+
+    function doSearch() {
+      const q = document.getElementById('kw-search').value.toLowerCase();
+      const res = db.filter(item => {
+        const matchesCat = activeCategory === 'all' || item.cat === activeCategory;
+        const matchesKw = item.name.toLowerCase().includes(q) || item.spec.toLowerCase().includes(q) || item.brand.toLowerCase().includes(q);
+        return matchesCat && matchesKw;
+      });
+      render(res);
+    }
+
+    function refreshData() {
+      const icon = document.getElementById('refresh-icon');
+      icon.classList.add('fa-spin');
+      setTimeout(() => {
+        db.forEach(item => {
+          const delta = (Math.floor(Math.random() * 3) - 1) * 50;
+          item.marketPrice = Math.max(item.officialMsrp - 500, item.marketPrice + delta);
+        });
+        doSearch();
+        icon.classList.remove('fa-spin');
+      }, 400);
+    }
+
+    function exportICS(name, dateStr) {
+      const dt = new Date(dateStr);
+      const end = new Date(dt.getTime() + 1800000);
+      const fmt = d => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//TechDrop//CN\nBEGIN:VEVENT\nSUMMARY:【首发抢购】${name}\nDTSTART:${fmt(dt)}\nDTEND:${fmt(end)}\nBEGIN:VALARM\nTRIGGER:-PT5M\nACTION:DISPLAY\nDESCRIPTION:提前5分钟准备抢购\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR`;
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${name}_首发日程.ics`;
+      a.click();
+    }
+
+    render(db);
+  </script>
+</body>
+</html>

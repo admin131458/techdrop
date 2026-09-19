@@ -1,0 +1,57 @@
+{
+  "updated_at": "2026-09-19T12:00:00Z",
+  "products": [
+    {
+      "id": "xm-fold",
+      "brand": "Xiaomi",
+      "cat": "phone",
+      "name": "小米 18 Fold 阔折叠手机",
+      "spec": "首发自研玄戒 O3 AI 芯片 · 龙骨转轴 · 金沙江电池",
+      "date": "2026-09-24T10:00:00",
+      "officialMsrp": 10999,
+      "pddPrice": 10699,
+      "marketPrice": 12500,
+      "status": "官方预约中",
+      "link": "https://www.mi.com"
+    },
+    {
+      "id": "xm-pad9",
+      "brand": "Xiaomi",
+      "cat": "tablet",
+      "name": "小米平板 9 Pro Max",
+      "spec": "13.3英寸生产力大屏 · 玄戒 O3 芯片 · DP-in 输入",
+      "date": "2026-09-24T10:00:00",
+      "officialMsrp": 4799,
+      "pddPrice": 4049,
+      "marketPrice": 4799,
+      "status": "下周现货首发",
+      "link": "https://www.mi.com"
+    },
+    {
+      "id": "ap-18pm",
+      "brand": "Apple",
+      "cat": "phone",
+      "name": "iPhone 18 Pro Max",
+      "spec": "台积电 2nm A20 Pro · 潜望微距长焦 · 钛金属机身",
+      "date": "2026-09-25T08:00:00",
+      "officialMsrp": 9999,
+      "pddPrice": 9499,
+      "marketPrice": 10499,
+      "status": "即将首发开抢",
+      "link": "https://www.apple.com.cn"
+    },
+    {
+      "id": "ns-switch2",
+      "brand": "Nintendo",
+      "cat": "gaming",
+      "name": "Nintendo Switch 2 代",
+      "spec": "定制 Tegra 芯片 · 支持 DLSS 硬件超分辨率 · 新世代卡带",
+      "date": "2026-10-15T09:00:00",
+      "officialMsrp": 3299,
+      "pddPrice": 3199,
+      "marketPrice": 3899,
+      "status": "锁单排期中",
+      "link": "https://www.nintendo.com"
+    }
+  ]
+}
