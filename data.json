@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T12:00:00Z",
+  "updated_at": "2026-09-19T19:44:12.479394+00:00",
   "products": [
     {
       "id": "xm-fold",
@@ -23,7 +23,7 @@
       "date": "2026-09-24T10:00:00",
       "officialMsrp": 4799,
       "pddPrice": 4049,
-      "marketPrice": 4799,
+      "marketPrice": 4749,
       "status": "下周现货首发",
       "link": "https://www.mi.com"
     },
@@ -36,7 +36,7 @@
       "date": "2026-09-25T08:00:00",
       "officialMsrp": 9999,
       "pddPrice": 9499,
-      "marketPrice": 10499,
+      "marketPrice": 10599,
       "status": "即将首发开抢",
       "link": "https://www.apple.com.cn"
     },
