@@ -1,0 +1,31 @@
+name: Auto Sync Tech Drops
+
+on:
+  schedule:
+    # 国际标准时间，每天每 4 小时自动运行一次
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # 允许你在 GitHub 网页上手动点击立即运行测试
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 执行抓取与数据同步脚本
+        run: |
+          python crawler.py
+
+      - name: 提交更新到仓库
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git commit -m "chore: 自动同步最新首发与行情数据 [skip ci]" || echo "无数据变动"
+          git push
