@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T18:24:50.441832+00:00",
+  "updated_at": "2026-09-20T22:05:11.853715+00:00",
   "products": [
     {
       "id": "xm-18fold",
@@ -23,7 +23,7 @@
       "date": "2026-09-07T21:00:00",
       "officialMsrp": 4799,
       "pddPrice": 4049,
-      "marketPrice": 4899,
+      "marketPrice": 4849,
       "status": "现货已开售 (国补享优惠)",
       "link": "https://www.mi.com"
     },
@@ -75,7 +75,7 @@
       "date": "2026-09-17T09:00:00",
       "officialMsrp": 3299,
       "pddPrice": 3199,
-      "marketPrice": 3799,
+      "marketPrice": 3849,
       "status": "现货排期发货",
       "link": "https://www.nintendo.com"
     },
@@ -88,7 +88,7 @@
       "date": "2026-09-22T10:00:00",
       "officialMsrp": 11390,
       "pddPrice": 14999,
-      "marketPrice": 16000,
+      "marketPrice": 16050,
       "status": "原价官方抽签预约中",
       "link": "https://www.jd.com"
     }
