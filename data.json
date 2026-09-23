@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23T19:22:27.346221+00:00",
+  "updated_at": "2026-09-23T22:35:58.916470+00:00",
   "products": [
     {
       "id": "xm-18fold",
@@ -10,7 +10,7 @@
       "date": "2026-09-10T10:00:00",
       "officialMsrp": 10999,
       "pddPrice": 10699,
-      "marketPrice": 11950,
+      "marketPrice": 11900,
       "status": "🔥 9月10日现货首销",
       "link": "https://www.mi.com"
     },
@@ -23,7 +23,7 @@
       "date": "2026-09-07T21:00:00",
       "officialMsrp": 4799,
       "pddPrice": 4049,
-      "marketPrice": 4999,
+      "marketPrice": 5049,
       "status": "现货已开售 (国补享优惠)",
       "link": "https://www.mi.com"
     },
@@ -36,7 +36,7 @@
       "date": "2026-09-18T00:00:00",
       "officialMsrp": 999,
       "pddPrice": 929,
-      "marketPrice": 1499,
+      "marketPrice": 1449,
       "status": "昨日(9月18日)首发开抢",
       "link": "https://www.mi.com"
     },
@@ -49,7 +49,7 @@
       "date": "2026-09-18T08:00:00",
       "officialMsrp": 9999,
       "pddPrice": 9699,
-      "marketPrice": 10749,
+      "marketPrice": 10799,
       "status": "昨日(9月18日)正式发售",
       "link": "https://www.apple.com.cn"
     },
@@ -88,7 +88,7 @@
       "date": "2026-09-22T10:00:00",
       "officialMsrp": 11390,
       "pddPrice": 14999,
-      "marketPrice": 16350,
+      "marketPrice": 16300,
       "status": "原价官方抽签预约中",
       "link": "https://www.jd.com"
     }
