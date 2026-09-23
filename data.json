@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23T08:58:38.362745+00:00",
+  "updated_at": "2026-09-23T15:53:23.470526+00:00",
   "products": [
     {
       "id": "xm-18fold",
@@ -10,7 +10,7 @@
       "date": "2026-09-10T10:00:00",
       "officialMsrp": 10999,
       "pddPrice": 10699,
-      "marketPrice": 12050,
+      "marketPrice": 12000,
       "status": "🔥 9月10日现货首销",
       "link": "https://www.mi.com"
     },
@@ -23,7 +23,7 @@
       "date": "2026-09-07T21:00:00",
       "officialMsrp": 4799,
       "pddPrice": 4049,
-      "marketPrice": 4949,
+      "marketPrice": 4999,
       "status": "现货已开售 (国补享优惠)",
       "link": "https://www.mi.com"
     },
@@ -36,7 +36,7 @@
       "date": "2026-09-18T00:00:00",
       "officialMsrp": 999,
       "pddPrice": 929,
-      "marketPrice": 1449,
+      "marketPrice": 1399,
       "status": "昨日(9月18日)首发开抢",
       "link": "https://www.mi.com"
     },
